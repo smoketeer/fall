@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  
+
+  <title>Hopper rocket 3.0 - KOS F.A.L.L.</title>
+  <link rel="stylesheet" href="https://smoketeer.github.io/fall/assets/css/just-the-docs.css">
+
+  
+
+  
+    <script type="text/javascript" src="https://smoketeer.github.io/fall/assets/js/vendor/lunr.min.js"></script>
+  
+  <script type="text/javascript" src="https://smoketeer.github.io/fall/assets/js/just-the-docs.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <div class="page-wrap">
+    <div class="side-bar">
+      <div>
+      <a href="https://smoketeer.github.io/fall" class="site-title fs-6 lh-tight">KOS F.A.L.L.</a>
+      </div>
+      <span class="fs-3"><button class="js-main-nav-trigger navigation-list-toggle btn btn-outline" type="button" data-text-toggle="Hide">Menu</button></span>
+      <div class="navigation main-nav js-main-nav">
+        <nav role="navigation" aria-label="Main navigation">
+  <ul class="navigation-list">
+    
+    
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/" class="navigation-list-link">Home</a>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/quickstart/" class="navigation-list-link">Quickstart</a>
+            
+              
+              <ul class="navigation-list-child-list ">
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/installation" class="navigation-list-link">Installation</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/howtouse" class="navigation-list-link">How to use</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/example" class="navigation-list-link">Code Example</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+              </ul>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/docs/" class="navigation-list-link">Docs</a>
+            
+              
+              <ul class="navigation-list-child-list ">
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/introduction" class="navigation-list-link">Introduction</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/introduction/objects" class="navigation-list-link">Simulating objects</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/introduction/components" class="navigation-list-link">Custom components</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/models" class="navigation-list-link">Models</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/models/hoverSlamModel" class="navigation-list-link">hoverSlamModel</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/models/landingDataModel" class="navigation-list-link">landingDataModel</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/controllers" class="navigation-list-link">Controllers</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/ascentController" class="navigation-list-link">ascentController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/boostbackController" class="navigation-list-link">boostbackController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/glideController" class="navigation-list-link">glideController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/glidePIDController" class="navigation-list-link">glidePIDController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/landingController" class="navigation-list-link">landingController</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/landingPIDController" class="navigation-list-link">landingPIDController</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/passcontrol" class="navigation-list-link">Passing Control</a>
+                              </li>
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/utilities" class="navigation-list-link">Utilities</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/utilities/importfall" class="navigation-list-link">importFall</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+              </ul>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/tutorials/" class="navigation-list-link">Tutorials</a>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+  </ul>
+</nav>
+
+      </div>
+      <footer role="contentinfo" class="site-footer">
+        
+        <p class="label label-yellow">UNDER CONSTRUCTION</p>
+        
+        <p class="text-small text-grey-dk-000 mb-0">This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.</p>
+      </footer>
+    </div>
+    <div class="main-content-wrap js-main-content" tabindex="0">
+      <div class="page-header">
+        <div class="main-content">
+          
+          <div class="search js-search">
+            <div class="search-input-wrap">
+              <input type="text" class="js-search-input search-input" tabindex="0" placeholder="Search KOS F.A.L.L." aria-label="Search KOS F.A.L.L." autocomplete="off">
+              <svg width="14" height="14" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="search-icon"><title>Search</title><g fill-rule="nonzero"><path d="M17.332 20.735c-5.537 0-10-4.6-10-10.247 0-5.646 4.463-10.247 10-10.247 5.536 0 10 4.601 10 10.247s-4.464 10.247-10 10.247zm0-4c3.3 0 6-2.783 6-6.247 0-3.463-2.7-6.247-6-6.247s-6 2.784-6 6.247c0 3.464 2.7 6.247 6 6.247z"/><path d="M11.672 13.791L.192 25.271 3.02 28.1 14.5 16.62z"/></g></svg>
+            </div>
+            <div class="js-search-results search-results-wrap"></div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="main-content">
+        
+          
+        
+        <div id="main-content" class="page-content" role="main">
+          
+<h1 class="d-inline-block"> Hopper rocket 3.0 </h1>
+
+<p class="label label-green">Tutorial</p>
+
+
+
+
+<p class="fs-2 fw-300"> Author: <a href="https://www.github.com/smoketeer">smoketeer</a></p>
+
+
+<p>In Hopper rocket tutorials we’re paying tribute to historical rockets capable
+of powered landing in atmospheric environment, namely <a href="">DC-X</a>, <a href="">Grasshopper</a>
+and <a href="">BlueShepherd</a>. Instead of combining every bit of fall module into one script,
+we’re going to gradually build complexity.</p>
+
+<hr />
+<p>This tutorial is a continuation of <a href="/fall/tutorials/Hopper-rocket-2">Tutorial: Hopper rocket 2.0</a>.</p>
+
+<h2 id="mission">Mission</h2>
+<p>Last time we’ve implemented Hopper rocket 2.0, which is capable of correcting
+its course during unpowered flight stage. This time we’re going to include
+powered landing guidance in the form of <a href="/fall/docs/controllers/landingController"><code>landingController</code></a>.</p>
+
+<h2 id="implementation">Implementation</h2>
+<p>We’re going to reuse some code from previous tutorial.</p>
+
+<h3 id="importing-fall">Importing FALL</h3>
+<p>Things we need:</p>
+<ul>
+  <li><a href="/fall/docs/models/hoverSlamModel"><code>hoverSlamModel</code></a> - for final burn</li>
+  <li><a href="/fall/docs/models/landingDataModel"><code>landingDataModel</code></a> - to construct glideController and landingController objects</li>
+  <li><a href="/fall/docs/controllers/landingController"><code>landingController</code></a> - for landing guidance, constructed with landingDataModel</li>
+  <li><a href="/fall/docs/controllers/glideController"><code>glideController</code></a> - for gliding guidance, constructed with landingDataModel object</li>
+  <li>Extra: <a href="/fall/docs/utilities/importFall"><code>importFall</code></a> utility to make the syntax less tedious</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="nv">runoncepath</span><span class="p">(</span><span class="s">&quot;0:/fall/utilities/importFall&quot;</span><span class="p">).</span>
+
+<span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;hoverSlamModel&quot;</span><span class="p">).</span>
+<span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;landingDataModel&quot;</span><span class="p">).</span>
+<span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;glideController&quot;</span><span class="p">).</span>
+<span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;landingController&quot;</span><span class="p">).</span></code></pre></figure>
+
+<h3 id="launch">Launch</h3>
+<p>Launch sequence comes from previous tutorials:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="k">local</span> <span class="nv">ldata</span> <span class="ow">is</span> <span class="nv">landingDataModel</span><span class="p">(</span><span class="nv">ship</span><span class="p">:</span><span class="nv">geoposition</span><span class="p">).</span>
+
+<span class="k">lock</span> <span class="nv">steering</span> <span class="ow">to</span> <span class="nv">up</span><span class="p">.</span>
+<span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="mf">1</span><span class="p">.</span>
+
+<span class="c1">// [ Launch ]</span>
+<span class="k">wait</span> <span class="mf">1</span><span class="p">.</span>
+<span class="k">stage</span><span class="p">.</span>
+<span class="nv">gear</span> <span class="nb">off</span><span class="p">.</span>
+
+<span class="c1">// [ Ascent ]</span>
+<span class="k">wait</span> <span class="k">until</span> <span class="nv">ship</span><span class="p">:</span><span class="nv">apoapsis</span> <span class="o">&gt;</span> <span class="mf">10000</span><span class="p">.</span>
+<span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="mf">0</span><span class="p">.</span>
+<span class="nv">rcs</span> <span class="nb">on</span><span class="p">.</span></code></pre></figure>
+
+<h3 id="gliding">Gliding</h3>
+<p>Now we set up our <a href="/fall/docs/controllers/glideController"><code>glideController</code></a> and give control to it when our ship starts falling:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="c1">// [ Gliding Prep ]</span>
+<span class="k">local</span> <span class="nv">glide</span> <span class="ow">is</span> <span class="nv">glideController</span><span class="p">(</span><span class="nv">ldata</span><span class="p">,</span> <span class="mf">5</span><span class="p">,</span> <span class="mf">0</span><span class="p">.</span><span class="mf">4</span><span class="p">).</span>
+
+
+<span class="c1">// [ Gliding ]</span>
+<span class="k">wait</span> <span class="k">until</span> <span class="nv">ship</span><span class="p">:</span><span class="nv">verticalspeed</span> <span class="o">&lt;</span> <span class="mf">0</span><span class="p">.</span>
+<span class="k">when</span> <span class="nv">alt</span><span class="p">:</span><span class="nv">radar</span> <span class="o">&lt;</span> <span class="mf">50</span> <span class="k">then</span> <span class="p">{</span> <span class="nv">gear</span> <span class="nb">on</span><span class="p">.</span> <span class="p">}</span>
+
+<span class="k">lock</span> <span class="nv">steering</span> <span class="ow">to</span> <span class="nv">glide</span><span class="p">[</span><span class="s">&quot;getSteering&quot;</span><span class="p">]().</span></code></pre></figure>
+
+<h3 id="landing">Landing</h3>
+<p>This time instead of setting up our hoverslam and locking steering to retrograde, we’re going to create landingController object:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="c1">// [Landing Prep]</span>
+<span class="k">local</span> <span class="nv">hoverslam</span> <span class="ow">is</span> <span class="nv">hoverSlamModel</span><span class="p">(</span><span class="mf">10</span><span class="p">).</span>
+<span class="k">local</span> <span class="nv">landing</span> <span class="ow">is</span> <span class="nv">landingController</span><span class="p">(</span><span class="nv">ldata</span><span class="p">,</span> <span class="nv">hoverslam</span><span class="p">,</span> <span class="mf">5</span><span class="p">,</span> <span class="mf">0</span><span class="p">.</span><span class="mf">4</span><span class="p">).</span></code></pre></figure>
+
+<p>Give it control over throttle:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="nv">landing</span><span class="p">[</span><span class="s">&quot;getThrottle&quot;</span><span class="p">]().</span></code></pre></figure>
+
+<p>And give it control over steering as soon as it outputs throttle larger than 0 and ship is lower than 5000 meters ATL:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="c1">// [ Powered Landing ]</span>
+<span class="k">wait</span> <span class="k">until</span> <span class="nv">throttle</span> <span class="o">&gt;</span> <span class="mf">0</span> <span class="ow">and</span> <span class="nv">alt</span><span class="p">:</span><span class="nv">Radar</span> <span class="o">&lt;</span> <span class="mf">5000</span><span class="p">.</span>
+<span class="k">lock</span> <span class="nv">steering</span> <span class="ow">to</span> <span class="nv">landing</span><span class="p">[</span><span class="s">&quot;getSteering&quot;</span><span class="p">]().</span></code></pre></figure>
+
+<p>It’s very important to make sure that steering is given to <code>landingController</code> as soon as the engines are fired. Otherwise <code>glideController</code> steering scheme will bring opposite results to what is desired.</p>
+
+<p>For the final touch, as usual, we add some logic so our ship can recognise when its landed:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="k">wait</span> <span class="k">until</span> <span class="nv">landing</span><span class="p">[</span><span class="s">&quot;completed&quot;</span><span class="p">]().</span>
+<span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="mf">0</span><span class="p">.</span>
+<span class="nv">rcs</span> <span class="nb">off</span><span class="p">.</span>
+<span class="k">wait</span> <span class="k">until</span> <span class="nb">false</span><span class="p">.</span></code></pre></figure>
+
+<h2 id="summary">Summary</h2>
+
+<p>We’re done! Our Hopper 3.0 is now capable of making an autonomous ascent, gliding towards target and finally performing a powered landing maneuver. Code as a whole looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="lineno"> 1 </span><span class="nv">runoncepath</span><span class="p">(</span><span class="s">&quot;0:/fall/utilities/importFall&quot;</span><span class="p">).</span>
+<span class="lineno"> 2 </span><span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;landingDataModel&quot;</span><span class="p">).</span>
+<span class="lineno"> 3 </span><span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;hoverSlamModel&quot;</span><span class="p">).</span>
+<span class="lineno"> 4 </span><span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;glideController&quot;</span><span class="p">).</span>
+<span class="lineno"> 5 </span><span class="nv">importFall</span><span class="p">(</span><span class="s">&quot;landingController&quot;</span><span class="p">).</span>
+<span class="lineno"> 6 </span>
+<span class="lineno"> 7 </span><span class="k">local</span> <span class="nv">ldata</span> <span class="ow">is</span> <span class="nv">landingDataModel</span><span class="p">(</span><span class="nv">ship</span><span class="p">:</span><span class="nv">geoposition</span><span class="p">).</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span><span class="k">lock</span> <span class="nv">steering</span> <span class="ow">to</span> <span class="nv">up</span><span class="p">.</span>
+<span class="lineno">10 </span><span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="mf">1</span><span class="p">.</span>
+<span class="lineno">11 </span>
+<span class="lineno">12 </span><span class="c1">// [ Launch ]</span>
+<span class="lineno">13 </span><span class="k">wait</span> <span class="mf">1</span><span class="p">.</span>
+<span class="lineno">14 </span><span class="k">stage</span><span class="p">.</span>
+<span class="lineno">15 </span><span class="nv">gear</span> <span class="nb">off</span><span class="p">.</span>
+<span class="lineno">16 </span>
+<span class="lineno">17 </span>
+<span class="lineno">18 </span><span class="c1">// [ Ascent ]</span>
+<span class="lineno">19 </span><span class="k">wait</span> <span class="k">until</span> <span class="nv">ship</span><span class="p">:</span><span class="nv">apoapsis</span> <span class="o">&gt;</span> <span class="mf">10000</span><span class="p">.</span>
+<span class="lineno">20 </span><span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="mf">0</span><span class="p">.</span>
+<span class="lineno">21 </span><span class="nv">rcs</span> <span class="nb">on</span><span class="p">.</span>
+<span class="lineno">22 </span>
+<span class="lineno">23 </span><span class="c1">// [ Gliding Prep ]</span>
+<span class="lineno">24 </span><span class="k">local</span> <span class="nv">glide</span> <span class="ow">is</span> <span class="nv">glideController</span><span class="p">(</span><span class="nv">ldata</span><span class="p">).</span>
+<span class="lineno">25 </span>
+<span class="lineno">26 </span>
+<span class="lineno">27 </span><span class="c1">// [ Gliding ]</span>
+<span class="lineno">28 </span><span class="k">wait</span> <span class="k">until</span> <span class="nv">ship</span><span class="p">:</span><span class="nv">verticalspeed</span> <span class="o">&lt;</span> <span class="mf">0</span><span class="p">.</span>
+<span class="lineno">29 </span><span class="k">when</span> <span class="nv">alt</span><span class="p">:</span><span class="nv">radar</span> <span class="o">&lt;</span> <span class="mf">50</span> <span class="k">then</span> <span class="p">{</span> <span class="nv">gear</span> <span class="nb">on</span><span class="p">.</span> <span class="p">}</span>
+<span class="lineno">30 </span>
+<span class="lineno">31 </span><span class="k">lock</span> <span class="nv">steering</span> <span class="ow">to</span> <span class="nv">glide</span><span class="p">[</span><span class="s">&quot;getSteering&quot;</span><span class="p">]().</span>
+<span class="lineno">32 </span>
+<span class="lineno">33 </span><span class="c1">// [Landing Prep]</span>
+<span class="lineno">34 </span><span class="k">local</span> <span class="nv">hoverslam</span> <span class="ow">is</span> <span class="nv">hoverSlamModel</span><span class="p">(</span><span class="mf">10</span><span class="p">).</span>
+<span class="lineno">35 </span><span class="k">local</span> <span class="nv">landing</span> <span class="ow">is</span> <span class="nv">landingController</span><span class="p">(</span><span class="nv">ldata</span><span class="p">,</span> <span class="nv">hoverslam</span><span class="p">,</span> <span class="mf">5</span><span class="p">,</span> <span class="mf">0</span><span class="p">.</span><span class="mf">4</span><span class="p">).</span>
+<span class="lineno">36 </span><span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="nv">landing</span><span class="p">[</span><span class="s">&quot;getThrottle&quot;</span><span class="p">]().</span>
+<span class="lineno">37 </span>
+<span class="lineno">38 </span><span class="c1">// [ Powered Landing ]</span>
+<span class="lineno">39 </span><span class="k">wait</span> <span class="k">until</span> <span class="nv">throttle</span> <span class="o">&gt;</span> <span class="mf">0</span> <span class="ow">and</span> <span class="nv">alt</span><span class="p">:</span><span class="nv">Radar</span> <span class="o">&lt;</span> <span class="mf">5000</span><span class="p">.</span>
+<span class="lineno">40 </span><span class="k">lock</span> <span class="nv">steering</span> <span class="ow">to</span> <span class="nv">landing</span><span class="p">[</span><span class="s">&quot;getSteering&quot;</span><span class="p">]().</span>
+<span class="lineno">41 </span>
+<span class="lineno">42 </span><span class="k">wait</span> <span class="k">until</span> <span class="nv">landing</span><span class="p">[</span><span class="s">&quot;completed&quot;</span><span class="p">]().</span>
+<span class="lineno">43 </span><span class="k">lock</span> <span class="nv">throttle</span> <span class="ow">to</span> <span class="mf">0</span><span class="p">.</span>
+<span class="lineno">44 </span><span class="nv">rcs</span> <span class="nb">off</span><span class="p">.</span>
+<span class="lineno">45 </span><span class="k">wait</span> <span class="k">until</span> <span class="nb">false</span><span class="p">.</span></code></pre></figure>
+
+
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  
+
+  <title>Custom components - KOS F.A.L.L.</title>
+  <link rel="stylesheet" href="https://smoketeer.github.io/fall/assets/css/just-the-docs.css">
+
+  
+
+  
+    <script type="text/javascript" src="https://smoketeer.github.io/fall/assets/js/vendor/lunr.min.js"></script>
+  
+  <script type="text/javascript" src="https://smoketeer.github.io/fall/assets/js/just-the-docs.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <div class="page-wrap">
+    <div class="side-bar">
+      <div>
+      <a href="https://smoketeer.github.io/fall" class="site-title fs-6 lh-tight">KOS F.A.L.L.</a>
+      </div>
+      <span class="fs-3"><button class="js-main-nav-trigger navigation-list-toggle btn btn-outline" type="button" data-text-toggle="Hide">Menu</button></span>
+      <div class="navigation main-nav js-main-nav">
+        <nav role="navigation" aria-label="Main navigation">
+  <ul class="navigation-list">
+    
+    
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/" class="navigation-list-link">Home</a>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/quickstart/" class="navigation-list-link">Quickstart</a>
+            
+              
+              <ul class="navigation-list-child-list ">
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/installation" class="navigation-list-link">Installation</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/howtouse" class="navigation-list-link">How to use</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/example" class="navigation-list-link">Code Example</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+              </ul>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item active">
+            
+            <a href="https://smoketeer.github.io/fall/docs/" class="navigation-list-link">Docs</a>
+            
+              
+              <ul class="navigation-list-child-list ">
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item  active">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/introduction" class="navigation-list-link">Introduction</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/introduction/objects" class="navigation-list-link">Simulating objects</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item  active">
+                                <a href="https://smoketeer.github.io/fall/docs/introduction/components" class="navigation-list-link active">Custom components</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/models" class="navigation-list-link">Models</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/models/hoverSlamModel" class="navigation-list-link">hoverSlamModel</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/models/landingDataModel" class="navigation-list-link">landingDataModel</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/controllers" class="navigation-list-link">Controllers</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/ascentController" class="navigation-list-link">ascentController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/boostbackController" class="navigation-list-link">boostbackController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/glideController" class="navigation-list-link">glideController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/glidePIDController" class="navigation-list-link">glidePIDController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/landingController" class="navigation-list-link">landingController</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/landingPIDController" class="navigation-list-link">landingPIDController</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/passcontrol" class="navigation-list-link">Passing Control</a>
+                              </li>
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/utilities" class="navigation-list-link">Utilities</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/utilities/importfall" class="navigation-list-link">importFall</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+              </ul>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/tutorials/" class="navigation-list-link">Tutorials</a>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+  </ul>
+</nav>
+
+      </div>
+      <footer role="contentinfo" class="site-footer">
+        
+        <p class="label label-yellow">UNDER CONSTRUCTION</p>
+        
+        <p class="text-small text-grey-dk-000 mb-0">This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.</p>
+      </footer>
+    </div>
+    <div class="main-content-wrap js-main-content" tabindex="0">
+      <div class="page-header">
+        <div class="main-content">
+          
+          <div class="search js-search">
+            <div class="search-input-wrap">
+              <input type="text" class="js-search-input search-input" tabindex="0" placeholder="Search KOS F.A.L.L." aria-label="Search KOS F.A.L.L." autocomplete="off">
+              <svg width="14" height="14" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="search-icon"><title>Search</title><g fill-rule="nonzero"><path d="M17.332 20.735c-5.537 0-10-4.6-10-10.247 0-5.646 4.463-10.247 10-10.247 5.536 0 10 4.601 10 10.247s-4.464 10.247-10 10.247zm0-4c3.3 0 6-2.783 6-6.247 0-3.463-2.7-6.247-6-6.247s-6 2.784-6 6.247c0 3.464 2.7 6.247 6 6.247z"/><path d="M11.672 13.791L.192 25.271 3.02 28.1 14.5 16.62z"/></g></svg>
+            </div>
+            <div class="js-search-results search-results-wrap"></div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="main-content">
+        
+          
+            <nav class="breadcrumb-nav">
+              <ol class="breadcrumb-nav-list">
+                
+                  <li class="breadcrumb-nav-list-item"><a href="https://smoketeer.github.io/fall/docs/">Docs</a></li>
+                  <li class="breadcrumb-nav-list-item"><a href="https://smoketeer.github.io/fall/docs/introduction">Introduction</a></li>
+                
+                <li class="breadcrumb-nav-list-item"><span>Custom components</span></li>
+              </ol>
+            </nav>
+          
+        
+        <div id="main-content" class="page-content" role="main">
+          <h1 class="no_toc d-inline-block" id="custom-components">Custom components</h1>
+
+<p class="label label-blue">Advanced topic</p>
+
+<p>As mentioned in <a href="/fall/docs/introduction/objects">Simulating objects</a> section FALL makes
+use of aggregation. This approach reduces dependencies between defined structures, which simplifies the process of implementing
+custom components.</p>
+
+<p class="text-delta">Table of contents:</p>
+<ul id="markdown-toc">
+  <li><a href="#what-is-aggregation" id="markdown-toc-what-is-aggregation">What is aggregation?</a></li>
+  <li><a href="#custom-component-example" id="markdown-toc-custom-component-example">Custom component example</a></li>
+</ul>
+
+<h2 id="what-is-aggregation">What is aggregation?</h2>
+<p>The simplest practical explanation goes like this: instead of constructing objects inside other
+objects, we pass them to their constructor:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="c1">// aggregation</span>
+<span class="kd">function</span> <span class="nv">classA</span> <span class="p">{</span>
+
+    <span class="c1">// return lexicon</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nv">classB</span> <span class="p">{</span>
+    <span class="kd">parameter</span> <span class="nv">someObject</span><span class="p">.</span>
+
+    <span class="c1">// return lexicon</span>
+<span class="p">}</span>
+
+<span class="k">local</span> <span class="nv">A</span> <span class="ow">is</span> <span class="nv">classA</span><span class="p">().</span>  <span class="c1">// new A object</span>
+<span class="k">local</span> <span class="nv">B</span> <span class="ow">is</span> <span class="nv">classB</span><span class="p">(</span><span class="nv">A</span><span class="p">).</span> <span class="c1">// new B object</span></code></pre></figure>
+
+<p>rather than:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="c1">// composition</span>
+<span class="kd">function</span> <span class="nv">classA</span> <span class="p">{</span>
+
+    <span class="c1">// return lexicon</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nv">classB</span> <span class="p">{</span>
+    <span class="k">local</span> <span class="nv">someObject</span> <span class="ow">is</span> <span class="nv">classA</span><span class="p">().</span> <span class="c1">// new A object</span>
+
+    <span class="c1">// return lexicon</span>
+<span class="p">}</span>
+
+<span class="k">local</span> <span class="nv">B</span> <span class="ow">is</span> <span class="nv">classB</span><span class="p">().</span>  <span class="c1">// new B object</span></code></pre></figure>
+
+<h2 id="custom-component-example">Custom component example</h2>
+<p><code>landingController</code> is constructed with <code>hoverslamModel</code> object. Let’s
+assume that you came up with an impressive solution that calculates suicide burn
+so accurately that FALL <code>hoverslamModel</code> looks like a silly toy.</p>
+
+<p>All you need to know is that <code>hoverslamModel</code> implements only one public method
+<code>getThrottle</code>.</p>
+
+<p>First write your genius solution in the form of class:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="kd">function</span> <span class="nv">geniusSuicideBurn</span> <span class="p">{</span>
+    <span class="c1">// genius custom code</span>
+
+    <span class="kd">function</span> <span class="nv">getThrottle</span> <span class="p">{</span>
+        <span class="c1">// returns throttle</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">lexicon</span><span class="p">(</span>
+        <span class="c1">// other public methods</span>
+        <span class="s">&quot;getThrottle&quot;</span><span class="p">,</span> <span class="nv">getThrottle</span><span class="p">@</span>
+      <span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now you can construct landingController with your genius solution:</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="c1">// prep</span>
+<span class="k">local</span> <span class="nv">ldata</span> <span class="ow">is</span> <span class="nv">landingDataModel</span><span class="p">(</span><span class="nv">target</span><span class="p">:</span><span class="nv">geoposition</span><span class="p">).</span>
+<span class="k">local</span> <span class="nv">geniusBurn</span> <span class="ow">is</span> <span class="nv">geniusSuicideBurn</span><span class="p">().</span>
+
+<span class="k">local</span> <span class="nv">landing</span> <span class="ow">is</span> <span class="nv">landingController</span><span class="p">(</span><span class="nv">ldata</span><span class="p">,</span> <span class="nv">geniusBurn</span><span class="p">).</span></code></pre></figure>
+
+<p>In this case the landingController uses your custom solution to control the throttle, but
+keeps its way of steering the rocket.</p>
+
+<p>Simplicity of this approach makes it easier to develop new compatible components. Though it’s
+worth to mention that lack of type checking and inheritance model can be problematic and that’s
+exactly why I seriously consider actually implementing OOP layer on top of KOS.</p>
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

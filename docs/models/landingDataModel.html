@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  
+
+  <title>landingDataModel - KOS F.A.L.L.</title>
+  <link rel="stylesheet" href="https://smoketeer.github.io/fall/assets/css/just-the-docs.css">
+
+  
+
+  
+    <script type="text/javascript" src="https://smoketeer.github.io/fall/assets/js/vendor/lunr.min.js"></script>
+  
+  <script type="text/javascript" src="https://smoketeer.github.io/fall/assets/js/just-the-docs.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <div class="page-wrap">
+    <div class="side-bar">
+      <div>
+      <a href="https://smoketeer.github.io/fall" class="site-title fs-6 lh-tight">KOS F.A.L.L.</a>
+      </div>
+      <span class="fs-3"><button class="js-main-nav-trigger navigation-list-toggle btn btn-outline" type="button" data-text-toggle="Hide">Menu</button></span>
+      <div class="navigation main-nav js-main-nav">
+        <nav role="navigation" aria-label="Main navigation">
+  <ul class="navigation-list">
+    
+    
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/" class="navigation-list-link">Home</a>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/quickstart/" class="navigation-list-link">Quickstart</a>
+            
+              
+              <ul class="navigation-list-child-list ">
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/installation" class="navigation-list-link">Installation</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/howtouse" class="navigation-list-link">How to use</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/quickstart/example" class="navigation-list-link">Code Example</a>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+              </ul>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item active">
+            
+            <a href="https://smoketeer.github.io/fall/docs/" class="navigation-list-link">Docs</a>
+            
+              
+              <ul class="navigation-list-child-list ">
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/introduction" class="navigation-list-link">Introduction</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/introduction/objects" class="navigation-list-link">Simulating objects</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/introduction/components" class="navigation-list-link">Custom components</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item  active">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/models" class="navigation-list-link">Models</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/models/hoverSlamModel" class="navigation-list-link">hoverSlamModel</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item  active">
+                                <a href="https://smoketeer.github.io/fall/docs/models/landingDataModel" class="navigation-list-link active">landingDataModel</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/controllers" class="navigation-list-link">Controllers</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/ascentController" class="navigation-list-link">ascentController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/boostbackController" class="navigation-list-link">boostbackController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/glideController" class="navigation-list-link">glideController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/glidePIDController" class="navigation-list-link">glidePIDController</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/landingController" class="navigation-list-link">landingController</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/landingPIDController" class="navigation-list-link">landingPIDController</a>
+                              </li>
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/controllers/passcontrol" class="navigation-list-link">Passing Control</a>
+                              </li>
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li class="navigation-list-item ">
+                      
+                      <a href="https://smoketeer.github.io/fall/docs/utilities" class="navigation-list-link">Utilities</a>
+                      
+                        
+                        <ul class="navigation-list-child-list">
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                              <li class="navigation-list-item ">
+                                <a href="https://smoketeer.github.io/fall/docs/utilities/importfall" class="navigation-list-link">importFall</a>
+                              </li>
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                            
+                          
+                        </ul>
+                      
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+              </ul>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <li class="navigation-list-item">
+            
+            <a href="https://smoketeer.github.io/fall/tutorials/" class="navigation-list-link">Tutorials</a>
+            
+          </li>
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+  </ul>
+</nav>
+
+      </div>
+      <footer role="contentinfo" class="site-footer">
+        
+        <p class="label label-yellow">UNDER CONSTRUCTION</p>
+        
+        <p class="text-small text-grey-dk-000 mb-0">This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.</p>
+      </footer>
+    </div>
+    <div class="main-content-wrap js-main-content" tabindex="0">
+      <div class="page-header">
+        <div class="main-content">
+          
+          <div class="search js-search">
+            <div class="search-input-wrap">
+              <input type="text" class="js-search-input search-input" tabindex="0" placeholder="Search KOS F.A.L.L." aria-label="Search KOS F.A.L.L." autocomplete="off">
+              <svg width="14" height="14" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" class="search-icon"><title>Search</title><g fill-rule="nonzero"><path d="M17.332 20.735c-5.537 0-10-4.6-10-10.247 0-5.646 4.463-10.247 10-10.247 5.536 0 10 4.601 10 10.247s-4.464 10.247-10 10.247zm0-4c3.3 0 6-2.783 6-6.247 0-3.463-2.7-6.247-6-6.247s-6 2.784-6 6.247c0 3.464 2.7 6.247 6 6.247z"/><path d="M11.672 13.791L.192 25.271 3.02 28.1 14.5 16.62z"/></g></svg>
+            </div>
+            <div class="js-search-results search-results-wrap"></div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="main-content">
+        
+          
+            <nav class="breadcrumb-nav">
+              <ol class="breadcrumb-nav-list">
+                
+                  <li class="breadcrumb-nav-list-item"><a href="https://smoketeer.github.io/fall/docs/">Docs</a></li>
+                  <li class="breadcrumb-nav-list-item"><a href="https://smoketeer.github.io/fall/docs/models">Models</a></li>
+                
+                <li class="breadcrumb-nav-list-item"><span>landingDataModel</span></li>
+              </ol>
+            </nav>
+          
+        
+        <div id="main-content" class="page-content" role="main">
+          <h1 class="no_toc" id="landingdatamodel">landingDataModel</h1>
+
+<p>LandingDataModel holds and calculates positional data related to impact and
+landing geoposition.</p>
+
+<p class="text-delta">Table of contents:</p>
+<ul id="markdown-toc">
+  <li><a href="#contructing" id="markdown-toc-contructing">Contructing</a></li>
+  <li><a href="#public-methods" id="markdown-toc-public-methods">Public methods</a>    <ul>
+      <li><a href="#getsite" id="markdown-toc-getsite">getSite()</a></li>
+      <li><a href="#getimpact" id="markdown-toc-getimpact">getImpact()</a></li>
+      <li><a href="#lngerror" id="markdown-toc-lngerror">lngError()</a></li>
+      <li><a href="#laterror" id="markdown-toc-laterror">latError()</a></li>
+      <li><a href="#errorvector" id="markdown-toc-errorvector">errorVector()</a></li>
+      <li><a href="#overshootint" id="markdown-toc-overshootint">overshoot(int)</a></li>
+    </ul>
+  </li>
+  <li><a href="#code-examples" id="markdown-toc-code-examples">Code examples</a></li>
+</ul>
+
+<h2 id="contructing">Contructing</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">parameters</th>
+      <th style="text-align: left">type</th>
+      <th style="text-align: left">default</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">landingSite</td>
+      <td style="text-align: left">geoposition</td>
+      <td style="text-align: left">-</td>
+      <td style="text-align: left">Desired landing geoposition</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>* optional parameters</p>
+
+<h2 id="public-methods">Public methods</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">public methods</th>
+      <th style="text-align: left">return type</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">getSite()</td>
+      <td style="text-align: left">geoposition</td>
+      <td style="text-align: left">Returns landing site geoposition</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">getImpact()</td>
+      <td style="text-align: left">geoposition</td>
+      <td style="text-align: left">Returns impact geoposition</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">lngError()</td>
+      <td style="text-align: left">float</td>
+      <td style="text-align: left">Returns longitude error in degrees</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">latError()</td>
+      <td style="text-align: left">float</td>
+      <td style="text-align: left">Returns latitude error in degrees</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">errorVector()</td>
+      <td style="text-align: left">vector</td>
+      <td style="text-align: left">Returns a vector between landing and impact position</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">overshoot(int)</td>
+      <td style="text-align: left">landingDataModel</td>
+      <td style="text-align: left">Returns new landingDataModel object with an overshoot</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 class="doc-method" id="getsite">getSite()</h3>
+<p><em>No parameters</em></p>
+
+<p>Returns landing site geoposition.</p>
+
+<hr />
+
+<h3 class="doc-method" id="getimpact">getImpact()</h3>
+<p><em>No parameters</em></p>
+
+<p>Returns impact geoposition.</p>
+
+<hr />
+
+<h3 class="doc-method" id="lngerror">lngError()</h3>
+<p><em>No parameters</em></p>
+
+<p>Returns longitude difference between impact longitude and desired landing longitude.</p>
+
+<hr />
+
+<h3 class="doc-method" id="laterror">latError()</h3>
+<p><em>No parameters</em></p>
+
+<p>Returns latitude difference between impact latitude and desired landing latitude.</p>
+
+<hr />
+
+<h3 class="doc-method" id="errorvector">errorVector()</h3>
+<p><em>No parameters</em></p>
+
+<p>Returns a vector between desired landing position and current impact position.</p>
+
+<hr />
+
+<h3 class="doc-method" id="overshootint">overshoot(int)</h3>
+<p>Parameters:</p>
+<ul>
+  <li>meters::Integer -&gt; by how many should I overshoot original landing position?</li>
+</ul>
+
+<p>Returns new landingDataModel object with landingSite parameter shifted by distance
+defined in meters, in the direction of flight.</p>
+
+<hr />
+
+<h2 id="code-examples">Code examples</h2>
+<hr />
+
+<p>Give code examples</p>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="c1">// before flight, we will choose a target(could be a mobile landing pad)</span>
+<span class="k">wait</span> <span class="k">until</span> <span class="nv">hastarget</span><span class="p">.</span>
+<span class="k">local</span> <span class="nv">ldata</span> <span class="ow">is</span> <span class="nv">landingDataModel</span><span class="p">(</span><span class="nv">target</span><span class="p">:</span><span class="nv">geoposition</span><span class="p">).</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="k">wait</span> <span class="k">until</span> <span class="nv">hastarget</span><span class="p">.</span>
+<span class="k">local</span> <span class="nv">ldata</span> <span class="ow">is</span> <span class="nv">landingDataModel</span><span class="p">(</span><span class="nv">target</span><span class="p">:</span><span class="nv">geoposition</span><span class="p">).</span>
+<span class="p">.</span>
+<span class="p">.</span>
+<span class="p">.</span>
+<span class="k">print</span> <span class="nv">ldata</span><span class="p">[</span><span class="s">&quot;errorVector&quot;</span><span class="p">]():</span><span class="nv">mag</span><span class="p">.</span> <span class="c1">// prints how far impact point is from target</span>
+                                  <span class="c1">// in meters</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-kerboscript" data-lang="kerboscript"><span></span><span class="k">wait</span> <span class="k">until</span> <span class="nv">hastarget</span><span class="p">.</span>
+<span class="k">local</span> <span class="nv">ldata</span> <span class="ow">is</span> <span class="nv">landingDataModel</span><span class="p">(</span><span class="nv">target</span><span class="p">:</span><span class="nv">geoposition</span><span class="p">).</span>
+<span class="p">.</span>
+<span class="p">.</span>
+<span class="p">.</span>
+<span class="c1">// creating new landingDataModel, but the landing position</span>
+<span class="c1">// is being shifted by 50 meters in the direction of flight</span>
+<span class="c1">// from original landing position</span>
+<span class="k">local</span> <span class="nv">overshootData</span> <span class="ow">is</span> <span class="nv">ldata</span><span class="p">[</span><span class="s">&quot;overshoot&quot;</span><span class="p">](</span><span class="mf">50</span><span class="p">).</span> </code></pre></figure>
+
+
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

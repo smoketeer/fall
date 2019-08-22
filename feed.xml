@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://smoketeer.github.io/fall/feed.xml" rel="self" type="application/atom+xml" /><link href="https://smoketeer.github.io/fall/" rel="alternate" type="text/html" /><updated>2019-08-22T18:55:41+02:00</updated><id>https://smoketeer.github.io/fall/feed.xml</id><title type="html">KOS F.A.L.L.</title><subtitle>KOS F.A.L.L. module for greater good of Kerbal rocketry</subtitle><entry><title type="html">Hopper rocket 3.0</title><link href="https://smoketeer.github.io/fall/tutorials/Hopper-rocket-3" rel="alternate" type="text/html" title="Hopper rocket 3.0" /><published>2019-04-11T20:00:00+02:00</published><updated>2019-04-11T20:00:00+02:00</updated><id>https://smoketeer.github.io/fall/tutorials/Hopper-rocket-3</id><content type="html" xml:base="https://smoketeer.github.io/fall/tutorials/Hopper-rocket-3">&lt;p&gt;In Hopper rocket tutorials we’re paying tribute to historical rockets capable
+of powered landing in atmospheric environment, namely &lt;a href=&quot;&quot;&gt;DC-X&lt;/a&gt;, &lt;a href=&quot;&quot;&gt;Grasshopper&lt;/a&gt;
+and &lt;a href=&quot;&quot;&gt;BlueShepherd&lt;/a&gt;. Instead of combining every bit of fall module into one script,
+we’re going to gradually build complexity.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;This tutorial is a continuation of &lt;a href=&quot;/fall/tutorials/Hopper-rocket-2&quot;&gt;Tutorial: Hopper rocket 2.0&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;mission&quot;&gt;Mission&lt;/h2&gt;
+&lt;p&gt;Last time we’ve implemented Hopper rocket 2.0, which is capable of correcting
+its course during unpowered flight stage. This time we’re going to include
+powered landing guidance in the form of &lt;a href=&quot;/fall/docs/controllers/landingController&quot;&gt;&lt;code&gt;landingController&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;We’re going to reuse some code from previous tutorial.&lt;/p&gt;
+
+&lt;h3 id=&quot;importing-fall&quot;&gt;Importing FALL&lt;/h3&gt;
+&lt;p&gt;Things we need:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/fall/docs/models/hoverSlamModel&quot;&gt;&lt;code&gt;hoverSlamModel&lt;/code&gt;&lt;/a&gt; - for final burn&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/fall/docs/models/landingDataModel&quot;&gt;&lt;code&gt;landingDataModel&lt;/code&gt;&lt;/a&gt; - to construct glideController and landingController objects&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/fall/docs/controllers/landingController&quot;&gt;&lt;code&gt;landingController&lt;/code&gt;&lt;/a&gt; - for landing guidance, constructed with landingDataModel&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt; - for gliding guidance, constructed with landingDataModel object&lt;/li&gt;
+  &lt;li&gt;Extra: &lt;a href=&quot;/fall/docs/utilities/importFall&quot;&gt;&lt;code&gt;importFall&lt;/code&gt;&lt;/a&gt; utility to make the syntax less tedious&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;runoncepath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0:/fall/utilities/importFall&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hoverSlamModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;landingDataModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;glideController&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;landingController&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;launch&quot;&gt;Launch&lt;/h3&gt;
+&lt;p&gt;Launch sequence comes from previous tutorials:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landingDataModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;geoposition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;up&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// [ Launch ]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// [ Ascent ]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;apoapsis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;gliding&quot;&gt;Gliding&lt;/h3&gt;
+&lt;p&gt;Now we set up our &lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt; and give control to it when our ship starts falling:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [ Gliding Prep ]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glideController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+
+
+&lt;span class=&quot;c1&quot;&gt;// [ Gliding ]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verticalspeed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;radar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getSteering&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;landing&quot;&gt;Landing&lt;/h3&gt;
+&lt;p&gt;This time instead of setting up our hoverslam and locking steering to retrograde, we’re going to create landingController object:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [Landing Prep]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverSlamModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landingController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Give it control over throttle:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getThrottle&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;And give it control over steering as soon as it outputs throttle larger than 0 and ship is lower than 5000 meters ATL:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [ Powered Landing ]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Radar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getSteering&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;It’s very important to make sure that steering is given to &lt;code&gt;landingController&lt;/code&gt; as soon as the engines are fired. Otherwise &lt;code&gt;glideController&lt;/code&gt; steering scheme will bring opposite results to what is desired.&lt;/p&gt;
+
+&lt;p&gt;For the final touch, as usual, we add some logic so our ship can recognise when its landed:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;completed&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;We’re done! Our Hopper 3.0 is now capable of making an autonomous ascent, gliding towards target and finally performing a powered landing maneuver. Code as a whole looks like this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;runoncepath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0:/fall/utilities/importFall&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;landingDataModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hoverSlamModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;glideController&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;landingController&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landingDataModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;geoposition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;up&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [ Launch ]&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [ Ascent ]&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;apoapsis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [ Gliding Prep ]&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glideController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;26 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;27 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [ Gliding ]&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;28 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verticalspeed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;29 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;radar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;30 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;31 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getSteering&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;32 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;33 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [Landing Prep]&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;34 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverSlamModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;35 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landingController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;36 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getThrottle&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;37 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;38 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// [ Powered Landing ]&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;39 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Radar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;40 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getSteering&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;41 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;42 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;completed&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;43 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;44 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;45 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name>smoketeer</name></author><summary type="html">In Hopper rocket tutorials we’re paying tribute to historical rockets capable of powered landing in atmospheric environment, namely DC-X, Grasshopper and BlueShepherd. Instead of combining every bit of fall module into one script, we’re going to gradually build complexity.</summary></entry><entry><title type="html">Hopper rocket 1.0</title><link href="https://smoketeer.github.io/fall/tutorials/Hopper-rocket-1" rel="alternate" type="text/html" title="Hopper rocket 1.0" /><published>2019-04-10T20:00:00+02:00</published><updated>2019-04-10T20:00:00+02:00</updated><id>https://smoketeer.github.io/fall/tutorials/Hopper-rocket-1</id><content type="html" xml:base="https://smoketeer.github.io/fall/tutorials/Hopper-rocket-1">&lt;p&gt;In Hopper rocket tutorials we’re paying tribute to historical rockets capable
+of powered landing in atmospheric environment, namely &lt;a href=&quot;&quot;&gt;DC-X&lt;/a&gt;, &lt;a href=&quot;&quot;&gt;Grasshopper&lt;/a&gt;
+and &lt;a href=&quot;&quot;&gt;BlueShepherd&lt;/a&gt;. Instead of combining every bit of fall module into one script,
+we’re going to gradually build complexity.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;img src=&quot;/fall/assets/images/hopper-1.jpg&quot; alt=&quot;Hopper v1.0 Stock&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;mission&quot;&gt;Mission&lt;/h2&gt;
+&lt;p&gt;You can either build your own rocket, or download a ready to go fully
+stock KSP v.1.6.1:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/fall/assets/files/hopper.craft&quot; download=&quot;hopper.craft&quot;&gt;Hopper v1.0 Rocket&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Remember, we want to start small! Mind you, if
+you decide to use your own rocket, tuning may slightly differ.&lt;/p&gt;
+
+&lt;p&gt;We want our rocket to have:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;RCS at the top&lt;/li&gt;
+  &lt;li&gt;landing gear&lt;/li&gt;
+  &lt;li&gt;no clamps!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We’re going to:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;launch the rocket straight up&lt;/li&gt;
+  &lt;li&gt;land anywhere, without location requirement&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;You can either create a regular script in your archive(“0:/”), or
+a &lt;a href=&quot;&quot;&gt;boot script&lt;/a&gt; in your boot directory.&lt;/p&gt;
+
+&lt;h3 id=&quot;importing-fall&quot;&gt;Importing FALL&lt;/h3&gt;
+
+&lt;p&gt;Let’s get into it! First we want to load FALL libraries. In this tutorial we need
+only the &lt;code&gt;hoverSlamModel&lt;/code&gt;:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;runoncepath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0:/fall/models/hoverSlamModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;launch&quot;&gt;Launch&lt;/h3&gt;
+&lt;p&gt;Now let’s add some launch logic:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;up&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// we want to go straight up&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// turn on the engines&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// gain some decent altitude&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;apoapsis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// wait until falling&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verticalspeed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// deploy landing gear when 50 meters ATL&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;radar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;landing&quot;&gt;Landing&lt;/h3&gt;
+&lt;p&gt;At this stage our rocket majestically falls to its inevitable destruction. But have no fear!
+Hoverslam is here to rescue us:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// creating new hoverSlamModel object&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 10 is height of the rocket&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverSlamModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// let hoverslam control the throttle&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getThrottle&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;landed&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Uff! We&amp;#39;ve done it!&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;How does it work? HoverSlamModel implements &lt;code&gt;getThrottle()&lt;/code&gt; method. It calculates
+when(as late as possible) and how much throttle should be applied to successfully
+kill all the velocity before our rocket hits the ground.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Code as a whole looks like this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;runoncepath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0:/fall/models/hoverSlamModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;up&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;apoapsis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verticalspeed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;srfretrograde&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;radar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverSlamModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getThrottle&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;landed&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;but-what-if&quot;&gt;But what if?&lt;/h3&gt;
+&lt;p&gt;Let’s take a look at line 10 of this code. What happens if we increase this number to say, 10000?
+Our ship will still go straight up and land, but you’ll notice that we’ve landed far away from
+the launchpad. That’s not good!&lt;/p&gt;
+
+&lt;p&gt;In the next tutorial we will try to reduce the error when falling from higher altitudes.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/fall/tutorials/Hopper-rocket-2&quot; class=&quot;btn btn-green fs-5 mb-4 mb-md-0 mr-2&quot;&gt;Hopper Rocket 2.0&lt;/a&gt;&lt;/p&gt;</content><author><name>smoketeer</name></author><summary type="html">In Hopper rocket tutorials we’re paying tribute to historical rockets capable of powered landing in atmospheric environment, namely DC-X, Grasshopper and BlueShepherd. Instead of combining every bit of fall module into one script, we’re going to gradually build complexity.</summary></entry><entry><title type="html">Hopper rocket 2.0</title><link href="https://smoketeer.github.io/fall/tutorials/Hopper-rocket-2" rel="alternate" type="text/html" title="Hopper rocket 2.0" /><published>2019-04-10T20:00:00+02:00</published><updated>2019-04-10T20:00:00+02:00</updated><id>https://smoketeer.github.io/fall/tutorials/Hopper-rocket-2</id><content type="html" xml:base="https://smoketeer.github.io/fall/tutorials/Hopper-rocket-2">&lt;p&gt;In Hopper rocket tutorials we’re paying tribute to historical rockets capable
+of powered landing in atmospheric environment, namely &lt;a href=&quot;&quot;&gt;DC-X&lt;/a&gt;, &lt;a href=&quot;&quot;&gt;Grasshopper&lt;/a&gt;
+and &lt;a href=&quot;&quot;&gt;BlueShepherd&lt;/a&gt;. Instead of combining every bit of fall module into one script,
+we’re going to gradually build complexity.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;This tutorial is a continuation of &lt;a href=&quot;/fall/tutorials/Hopper-rocket-1&quot;&gt;Tutorial: Hopper rocket 1.0&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;mission&quot;&gt;Mission&lt;/h2&gt;
+&lt;p&gt;We already have a Hopper rocket 1.0. It flies straight up and then lands safely,
+but the higher it flies, the further we land from the original launch site.
+This, obviously, is not ideal.&lt;/p&gt;
+
+&lt;p&gt;When we look at rockets we’re trying to emulate, we can easily conclude that they
+are capable of correcting their course on the way down. They indeed land exactly
+where they started in most cases.&lt;/p&gt;
+
+&lt;p&gt;So how can we achieve this behaviour?&lt;/p&gt;
+
+&lt;p&gt;Hopper rocket 2.0 will use gliding guidance in the form of &lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt;.
+It will not land precisely on the launch pad just yet, but rather mitigate
+the distance from the launch pad significantly.&lt;/p&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;We’re going to reuse some code from previous tutorial.&lt;/p&gt;
+
+&lt;h3 id=&quot;importing-fall&quot;&gt;Importing FALL&lt;/h3&gt;
+&lt;p&gt;First let’s see what we need:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/fall/docs/models/hoverSlamModel&quot;&gt;&lt;code&gt;hoverSlamModel&lt;/code&gt;&lt;/a&gt; - for final burn&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt; - for gliding guidance, as we can see in the docs, it’s constructed with landingDataModel object&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/fall/docs/models/landingDataModel&quot;&gt;&lt;code&gt;landingDataModel&lt;/code&gt;&lt;/a&gt; - to construct glideController object&lt;/li&gt;
+  &lt;li&gt;Extra: &lt;a href=&quot;/fall/docs/utilities/importFall&quot;&gt;&lt;code&gt;importFall&lt;/code&gt;&lt;/a&gt; utility to make the syntax less tedious&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;runoncepath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0:/fall/utilities/importFall&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;landingDataModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hoverSlamModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;glideController&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;launch&quot;&gt;Launch&lt;/h3&gt;
+&lt;p&gt;This time we won’t go straight to launch sequence. First we’re going to prepare
+some data. We want our rocket to land where it started from, so it’s a good idea
+to store rockets position before it launches. FALL implements  &lt;a href=&quot;/fall/docs/models/landingDataModel&quot;&gt;&lt;code&gt;landingDataModel&lt;/code&gt;&lt;/a&gt;,
+which is constructed with desired landing geoposition parameter. It garners methods
+that among others calculate error between impact position and position at which
+we want to land. It will be used later on to construct &lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// ship:geoposition stands for current position&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landingDataModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;geoposition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now we’ll reuse some of the code we’ve written in the previous tutorial:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;up&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// we want to go straight up&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// turn on the engines&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// gain some decent altitude&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;apoapsis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// notice it&amp;#39;s higher than previously&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;That’s it for the launch sequence.&lt;/p&gt;
+
+&lt;h3 id=&quot;gliding&quot;&gt;Gliding&lt;/h3&gt;
+&lt;p&gt;In the previous tutorial, at this point we’ve waited until the ship starts falling. This
+time we want to add some extra logic, so the rocket will engage gliding control
+scheme as soon as we’re on our descent.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// tuning&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;maxAoa&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;errScaling&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// constructing glideController object&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glideController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;maxAoa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;errScaling&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verticalspeed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getSteering&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now as soon as the ship is on its descent, our glide controller will start
+course adjustment.&lt;/p&gt;
+
+&lt;h3 id=&quot;landing&quot;&gt;Landing&lt;/h3&gt;
+&lt;p&gt;This time our rocket isn’t just falling down, it constantly tries to mitigate landing
+position error. Applying thrust when gliding control scheme is active, will produce
+opposite results to what is expected. We have to make sure that as soon as our
+&lt;code&gt;hoverslam[&quot;getThrottle&quot;]()&lt;/code&gt; returns more than 0, the gliding control scheme
+ends and we continue to burn retrograde:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverSlamModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getThrottle&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;srfretrograde&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// changing control scheme&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;landed&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// We&amp;#39;ve landed!&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now our results should be more promising.&lt;/p&gt;
+&lt;h3 id=&quot;tuning&quot;&gt;Tuning&lt;/h3&gt;
+&lt;p&gt;Take a look at &lt;a href=&quot;#gliding&quot;&gt;Gliding&lt;/a&gt; section. As you can see we add two local variables -
+&lt;em&gt;maxAoa&lt;/em&gt; and &lt;em&gt;errScaling&lt;/em&gt;. They are used to tune &lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt; object.&lt;/p&gt;
+
+&lt;p&gt;General rule of thumb is, that we don’t need extreme corrections. In this case
+both errScaling and maxAoa are the default values the &lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt; uses.
+If your rocket overcompensates and oscillates, just lower the errScaling value.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;/fall/docs/controllers/glideController&quot;&gt;&lt;code&gt;glideController&lt;/code&gt;&lt;/a&gt; we’ve used is &lt;em&gt;vector oriented&lt;/em&gt;, it relies
+on proportional error corrections based on vector calculations. This doesn’t make
+it an extremely accurate solution, but it’s much easier to tune than &lt;em&gt;PID oriented&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you want to use PID version of the controller use &lt;a href=&quot;/fall/docs/controllers/glidePIDController&quot;&gt;&lt;code&gt;glidePIDController&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-kerboscript&quot; data-lang=&quot;kerboscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;runoncepath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0:/fall/utilities/importFall&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;landingDataModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hoverSlamModel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;importFall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;glideController&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landingDataModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;geoposition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;up&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// we want to go straight up&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;apoapsis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// notice it&amp;#39;s higher than previously&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;maxAoa&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;errScaling&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glideController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ldata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;maxAoa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;errScaling&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verticalspeed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;glide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getSteering&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rcs&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;26 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;27 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverSlamModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;28 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hoverslam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;getThrottle&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]().&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;29 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;30 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;throttle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;31 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;alt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;radar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gear&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;32 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;steering&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;srfretrograde&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// changing control scheme&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;33 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;34 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;landed&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;but-what-if&quot;&gt;But what if?&lt;/h3&gt;
+&lt;p&gt;Compensating the error with gliding guidance works fine as long as we spend
+enough time in the unpowered flight stage. But what if we do not have enough
+time to correct the course only through means of gliding?&lt;/p&gt;
+
+&lt;p&gt;We have to come up with a solution that performs course corrections during
+powered landing stage. This is exactly what we will do in the next tutorial.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/fall/tutorials/Hopper-rocket-3&quot; class=&quot;btn btn-green fs-5 mb-4 mb-md-0 mr-2&quot;&gt;Hopper Rocket 3.0&lt;/a&gt;&lt;/p&gt;</content><author><name>smoketeer</name></author><summary type="html">In Hopper rocket tutorials we’re paying tribute to historical rockets capable of powered landing in atmospheric environment, namely DC-X, Grasshopper and BlueShepherd. Instead of combining every bit of fall module into one script, we’re going to gradually build complexity.</summary></entry></feed>

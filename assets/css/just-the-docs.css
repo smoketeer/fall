@@ -5,6 +5,7 @@
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
+@import url("https://use.typekit.net/syi5pfi.css");
 html {
   font-family: sans-serif;
   /* 1 */
@@ -374,7 +375,7 @@ html {
       font-size: 16px !important; } }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "helvetica neue", helvetica, roboto, noto, "segoe ui", arial, sans-serif;
+  font-family: proxima-nova, -apple-system, BlinkMacSystemFont, "helvetica neue", helvetica, roboto, noto, "segoe ui", arial, sans-serif;
   font-size: inherit;
   line-height: 1.4;
   color: #5c5962;

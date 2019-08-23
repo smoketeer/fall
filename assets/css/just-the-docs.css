@@ -699,10 +699,10 @@ body {
       font-size: 16px !important; } }
   @media (min-width: 46.25rem) {
     .navigation-list-item {
-      font-size: 12px !important; } }
+      font-size: 16px !important; } }
   @media (min-width: 46.25rem) and (min-width: 31.25rem) {
     .navigation-list-item {
-      font-size: 14px !important; } }
+      font-size: 16px !important; } }
 
   .navigation-list-item .navigation-list-child-list {
     display: none; }

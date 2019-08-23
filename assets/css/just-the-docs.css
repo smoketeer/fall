@@ -582,70 +582,72 @@ body {
       justify-self: end;
       background-color: #f5f6fa; } }
 
-.page-content a {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap; }
-.page-content ul,
-.page-content ol {
-  padding-left: 1.5em; }
-.page-content ol {
-  list-style-type: none;
-  counter-reset: step-counter; }
-  .page-content ol > li {
-    position: relative; }
-    .page-content ol > li::before {
+.page-content {
+  margin-bottom: 4rem; }
+  .page-content a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+  .page-content ul,
+  .page-content ol {
+    padding-left: 1.5em; }
+  .page-content ol {
+    list-style-type: none;
+    counter-reset: step-counter; }
+    .page-content ol > li {
+      position: relative; }
+      .page-content ol > li::before {
+        position: absolute;
+        top: 0.2em;
+        left: -1.6em;
+        color: #959396;
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        font-size: 12px !important; }
+        @media (min-width: 31.25rem) {
+          .page-content ol > li::before {
+            font-size: 14px !important; } }
+        @media (min-width: 31.25rem) {
+          .page-content ol > li::before {
+            top: 0.11em; } }
+      .page-content ol > li ol {
+        counter-reset: sub-counter; }
+        .page-content ol > li ol li::before {
+          content: counter(sub-counter,lower-alpha);
+          counter-increment: sub-counter; }
+  .page-content ul {
+    list-style: none; }
+    .page-content ul > li::before {
       position: absolute;
-      top: 0.2em;
-      left: -1.6em;
+      margin-left: -1.4em;
       color: #959396;
-      content: counter(step-counter);
-      counter-increment: step-counter;
-      font-size: 12px !important; }
-      @media (min-width: 31.25rem) {
-        .page-content ol > li::before {
-          font-size: 14px !important; } }
-      @media (min-width: 31.25rem) {
-        .page-content ol > li::before {
-          top: 0.11em; } }
-    .page-content ol > li ol {
-      counter-reset: sub-counter; }
-      .page-content ol > li ol li::before {
-        content: counter(sub-counter,lower-alpha);
-        counter-increment: sub-counter; }
-.page-content ul {
-  list-style: none; }
-  .page-content ul > li::before {
-    position: absolute;
-    margin-left: -1.4em;
-    color: #959396;
-    content: "•"; }
-.page-content .task-list {
-  padding-left: 0; }
-.page-content .task-list-item {
-  display: flex;
-  align-items: center; }
-  .page-content .task-list-item::before {
-    content: ""; }
-.page-content .task-list-item-checkbox {
-  margin-right: 0.6em; }
-.page-content hr + * {
-  margin-top: 0; }
-.page-content h1:first-of-type {
-  margin-top: 0.5em; }
-.page-content dl {
-  display: grid;
-  grid-template-columns: max-content 1fr; }
-.page-content dt,
-.page-content dd {
-  margin: 0.25em 0; }
-.page-content dt {
-  text-align: right; }
-  .page-content dt::after {
-    content: ":"; }
-.page-content dd {
-  margin-left: 1em;
-  font-weight: 500; }
+      content: "•"; }
+  .page-content .task-list {
+    padding-left: 0; }
+  .page-content .task-list-item {
+    display: flex;
+    align-items: center; }
+    .page-content .task-list-item::before {
+      content: ""; }
+  .page-content .task-list-item-checkbox {
+    margin-right: 0.6em; }
+  .page-content hr + * {
+    margin-top: 0; }
+  .page-content h1:first-of-type {
+    margin-top: 0.5em; }
+  .page-content dl {
+    display: grid;
+    grid-template-columns: max-content 1fr; }
+  .page-content dt,
+  .page-content dd {
+    margin: 0.25em 0; }
+  .page-content dt {
+    text-align: right; }
+    .page-content dt::after {
+      content: ":"; }
+  .page-content dd {
+    margin-left: 1em;
+    font-weight: 500; }
 
 .site-title {
   display: block;
@@ -5857,6 +5859,11 @@ pre {
   border-radius: 5px;
   padding: 10px;
   display: inline-block; }
+
+.site-title {
+  border: none; }
+  .site-title img {
+    min-width: 3.5em; }
 
 /*
 
